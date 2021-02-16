@@ -20,7 +20,7 @@ data class Device(
     var status: String?,
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", foreignKey = ForeignKey(name="fk_user_id"))
+    @JoinColumn(name = "user_id", foreignKey = ForeignKey(name = "fk_user_id"))
     var user: User,
 
     @field: CreationTimestamp
