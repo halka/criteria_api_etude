@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: 'UTC'
+  datasource:
+    url: jdbc:postgresql://localhost:5432/criteria_etude
+    username: postgres
+    password:
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://127.0.0.1:5432/criteria_etude
+    user: postgres
+    password:
+    baseline-on-migrate: true
+    baseline-version: 1.0.0
+    baseline-description: Initial
+    locations: classpath:db/migration
