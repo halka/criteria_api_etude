@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
 
 @Entity
-@Table(name = "users")
+@Table(name = "devices")
 data class Device(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,
