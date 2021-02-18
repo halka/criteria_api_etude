@@ -1,5 +1,6 @@
 package dev.switchonthewall.learnCriteriaApi.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
@@ -19,9 +20,13 @@ data class Device(
     @field: [NotBlank Size(max = 255)]
     var status: String?,
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", foreignKey = ForeignKey(name = "fk_user_id"))
-    var user: User,
+//    @OneToMany(
+//        mappedBy = "device",
+//        cascade = [CascadeType.ALL],
+//        fetch = FetchType.LAZY
+//    )
+//    @JsonIgnore
+//    var users: MutableList<User> = mutableListOf(),
 
     @field: CreationTimestamp
     @Column(updatable = false)
