@@ -19,10 +19,6 @@ data class User(
     @field: [NotBlank Size(max = 255)]
     var status: String?,
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "device_id", foreignKey = ForeignKey(name="fk_device_id"))
-//    var device: Device,
-
     @field: CreationTimestamp
     @Column(updatable = false)
     var createdAt: LocalDateTime = LocalDateTime.now(),
