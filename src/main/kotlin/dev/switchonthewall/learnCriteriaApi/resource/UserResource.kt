@@ -56,6 +56,4 @@ class UserResource(
         userService.deleteUser(id) || throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "failed")
         return ResponseEntity<Void>(HttpStatus.NO_CONTENT)
     }
-
-
 }

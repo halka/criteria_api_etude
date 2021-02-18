@@ -18,3 +18,5 @@ spring:
     baseline-version: 1.0.0
     baseline-description: Initial
     locations: classpath:db/migration
+  doma:
+    jdbc-logger: SLF4J
