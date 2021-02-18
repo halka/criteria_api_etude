@@ -51,7 +51,7 @@ class UserResource(
         return ResponseEntity.ok().body(UserDto.new(updated))
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable(value = "id") id: Long): ResponseEntity<Void> {
         userService.deleteUser(id) || throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "failed")
         return ResponseEntity<Void>(HttpStatus.NO_CONTENT)
