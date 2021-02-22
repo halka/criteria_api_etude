@@ -30,8 +30,6 @@ dependencies {
 	implementation("org.seasar.doma:doma-kotlin:2.44.3")
 	implementation("org.seasar.doma.boot:doma-spring-boot-starter:1.5.0")
 	implementation("org.seasar.doma:doma-core:2.44.3")
-	implementation("org.seasar.doma:doma-slf4j:2.44.3")
-	implementation("org.seasar.doma:doma-kotlin:2.44.3")
 	kapt("org.seasar.doma:doma-processor:2.44.3")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
