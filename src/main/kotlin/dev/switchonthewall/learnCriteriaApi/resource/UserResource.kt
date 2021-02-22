@@ -1,11 +1,10 @@
 package dev.switchonthewall.learnCriteriaApi.resource
 
+import dev.switchonthewall.learnCriteriaApi.model.AddUser
+import dev.switchonthewall.learnCriteriaApi.model.AddUser_
 import dev.switchonthewall.learnCriteriaApi.model.User
-import dev.switchonthewall.learnCriteriaApi.resource.dto.request.AddUserDto
-import dev.switchonthewall.learnCriteriaApi.resource.dto.request.UpdateUserDto
-import dev.switchonthewall.learnCriteriaApi.resource.dto.response.UserDto
-import dev.switchonthewall.learnCriteriaApi.resource.dto.response.UserListDto
-import dev.switchonthewall.learnCriteriaApi.service.UserService
+import dev.switchonthewall.learnCriteriaApi.model.User_
+import org.seasar.doma.jdbc.criteria.Entityql
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindingResult
@@ -16,44 +15,25 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/users")
 class UserResource(
-    private val userService: UserService
-){
+    private val entityql: Entityql
+) {
     @GetMapping
-    fun getUsers(): UserListDto =
-        UserListDto.new(userService.getUsers())
-
-    @GetMapping("/{id}")
-    fun getUserById(@PathVariable(value = "id") id: Long): ResponseEntity<UserDto> {
-        val user = userService.getUserById(id) ?: throw HttpClientErrorException(HttpStatus.NOT_FOUND, "not found")
-        return ResponseEntity.ok().body(UserDto.new(user))
+    fun getUsers():List<User> {
+        return entityql.from(User_()).fetch()
     }
 
     @PostMapping
     fun addUser(
-        @Valid @RequestBody addUserDto: AddUserDto,
+        @Valid @RequestBody user: AddUser,
         bindingResult: BindingResult
-    ): ResponseEntity<UserDto> {
-        if(bindingResult.hasErrors()) {
+    ): ResponseEntity<AddUser>{
+        if (bindingResult.hasErrors()){
             throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "failed")
         } else {
-            val newUser = User(name = addUserDto.name, status = addUserDto.status)
-            return ResponseEntity.ok().body(UserDto.new(userService.addUser(newUser)))
+            var u: AddUser_ = AddUser_()
+            val result = entityql.insert(u, user).execute()
+            print(result)
+            return ResponseEntity.ok().body(result.entity)
         }
-    }
-
-    @PutMapping("/{id}")
-    fun updateUser(@PathVariable(value = "id") id: Long,
-                   @Valid @RequestBody updateUserDto: UpdateUserDto,
-                   bindingResult: BindingResult):
-            ResponseEntity<UserDto> {
-        val user = userService.getUserById(id) ?: throw HttpClientErrorException(HttpStatus.NOT_FOUND, "not found")
-        val updated = userService.updateUser(id, user.copy(name = updateUserDto.name, status = updateUserDto.status)) ?: throw HttpClientErrorException(HttpStatus.EXPECTATION_FAILED, "failed")
-        return ResponseEntity.ok().body(UserDto.new(updated))
-    }
-
-    @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable(value = "id") id: Long): ResponseEntity<Void> {
-        userService.deleteUser(id) || throw HttpClientErrorException(HttpStatus.BAD_REQUEST, "failed")
-        return ResponseEntity<Void>(HttpStatus.NO_CONTENT)
     }
 }

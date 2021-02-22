@@ -17,21 +17,11 @@ import org.seasar.doma.jdbc.entity.NamingType
 
 @Entity(immutable = true, metamodel = Metamodel(), naming = NamingType.SNAKE_LOWER_CASE)
 @Table(name = "users")
-data class User(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
-
+data class AddUser(
     @field: [NotBlank Size(max = 255)]
     val name: String?,
 
     @field: [NotBlank Size(max = 255)]
-    val status: String?,
-
-    @field: CreationTimestamp
-    @Column(updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-
-    @field: UpdateTimestamp
-    val updatedAt: LocalDateTime = LocalDateTime.now(),
+    val status: String?
 
 )
