@@ -5,12 +5,17 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.flywaydb.flyway") version "7.5.3"
 	kotlin("jvm") version "1.4.21"
-	kotlin("kapt") version "1.4.21"
 	kotlin("plugin.spring") version "1.4.21"
 	kotlin("plugin.jpa") version "1.4.21"
+	kotlin("plugin.allopen") version "1.4.21"
 
 }
 
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.MappedSuperclass")
+}
 group = "dev.switchonthewall"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
@@ -27,10 +32,6 @@ dependencies {
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.seasar.doma:doma-kotlin:2.44.3")
-	implementation("org.seasar.doma.boot:doma-spring-boot-starter:1.5.0")
-	implementation("org.seasar.doma:doma-core:2.44.3")
-	kapt("org.seasar.doma:doma-processor:2.44.3")
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
