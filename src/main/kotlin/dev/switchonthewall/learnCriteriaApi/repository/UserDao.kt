@@ -5,13 +5,13 @@ import javax.persistence.EntityManager
 import javax.persistence.criteria.CriteriaBuilder
 import javax.persistence.criteria.CriteriaQuery
 
-class UserDao(private val em:EntityManager) {
+class UserDao(private val entityManager: EntityManager) {
     fun findAll(): MutableList<User>? {
-        val cb: CriteriaBuilder = em.criteriaBuilder
-        val cq: CriteriaQuery<User> = cb.createQuery(User::class.java)
-        val root = cq.from(User::class.java)
-        cq.select(root)
-        val query = em.createQuery(cq)
+        val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
+        val criteriaQuery: CriteriaQuery<User> = criteriaBuilder.createQuery(User::class.java)
+        val root = criteriaQuery.from(User::class.java)
+        criteriaQuery.select(root)
+        val query = entityManager.createQuery(criteriaQuery)
 
         return query.resultList
     }
