@@ -14,7 +14,6 @@ plugins {
 
 allOpen {
 	annotation("javax.persistence.Entity")
-	annotation("javax.persistence.Repository")
 	annotation("javax.persistence.Embeddable")
 	annotation("javax.persistence.MappedSuperclass")
 }
