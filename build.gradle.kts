@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.flywaydb.flyway") version "7.5.3"
 	kotlin("jvm") version "1.4.21"
+	kotlin("kapt") version "1.4.21"
 	kotlin("plugin.spring") version "1.4.21"
 	kotlin("plugin.jpa") version "1.4.21"
 	kotlin("plugin.allopen") version "1.4.21"
