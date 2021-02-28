@@ -13,7 +13,17 @@ import javax.validation.Valid
 @RequestMapping("/users")
 class UserResource(private val userRepository: UserRepository, private val entityManager: EntityManager){
     @GetMapping
-    fun getAll() = userRepository.findAll()
+    fun getUsers(@RequestParam(value = "status") status: Optional<String>): MutableList<User> {
+        if (status.isPresent) {
+            val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
+            val criteriaQuery: CriteriaQuery<User> = criteriaBuilder.createQuery(User::class.java)
+            val root: Root<User> = criteriaQuery.from(User::class.java)
+            criteriaQuery.where(root.get<String>("status").`in`(status.get().split(",").map { it.trim() }))
+            return entityManager.createQuery(criteriaQuery).resultList
+        } else {
+            return userRepository.findAll()
+        }
+    }
 
     @GetMapping("/{id}")
     fun getUserById(@PathVariable(value = "id") id: Long): Optional<User> {
@@ -40,14 +50,5 @@ class UserResource(private val userRepository: UserRepository, private val entit
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable(value = "id") id: Long){
         return userRepository.deleteById(id)
-    }
-
-    @GetMapping("/status/{status}")
-    fun findByStatus(@PathVariable(value = "status", required = true) status: String): List<User> {
-        val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
-        val criteriaQuery: CriteriaQuery<User> = criteriaBuilder.createQuery(User::class.java)
-        val root: Root<User> = criteriaQuery.from(User::class.java)
-        criteriaQuery.where(root.get<String>("status").`in`(status.split(",").map { it.trim() }))
-        return entityManager.createQuery(criteriaQuery).resultList
     }
 }
