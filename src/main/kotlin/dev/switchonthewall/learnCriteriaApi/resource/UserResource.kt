@@ -43,11 +43,11 @@ class UserResource(private val userRepository: UserRepository, private val entit
     }
 
     @GetMapping("/status/{status}")
-    fun findByStatus(@PathVariable(value = "status") status: String): List<User> {
+    fun findByStatus(@PathVariable(value = "status", required = true) status: String): List<User> {
         val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
         val criteriaQuery: CriteriaQuery<User> = criteriaBuilder.createQuery(User::class.java)
         val root: Root<User> = criteriaQuery.from(User::class.java)
-        criteriaQuery.where(root.get<String>("status").`in`(status.split(",")))
+        criteriaQuery.where(root.get<String>("status").`in`(status.split(",").map { it.trim() }))
         return entityManager.createQuery(criteriaQuery).resultList
     }
 }
