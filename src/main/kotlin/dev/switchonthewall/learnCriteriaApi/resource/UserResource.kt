@@ -15,14 +15,16 @@ class UserResource(private val userRepository: UserRepository, private val entit
     @GetMapping
     fun getUsers(@RequestParam(value = "status") status: Optional<String>): MutableList<User> {
         if (status.isPresent) {
-            val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
-            val criteriaQuery: CriteriaQuery<User> = criteriaBuilder.createQuery(User::class.java)
-            val root: Root<User> = criteriaQuery.from(User::class.java)
-            criteriaQuery.where(root.get<String>("status").`in`(status.get().split(",").map { it.trim() }))
-            return entityManager.createQuery(criteriaQuery).resultList
-        } else {
-            return userRepository.findAll()
-        }
+            if (status.get() == "all") {
+                return userRepository.findAll()
+            } else {
+                val criteriaBuilder: CriteriaBuilder = entityManager.criteriaBuilder
+                val criteriaQuery: CriteriaQuery<User> = criteriaBuilder.createQuery(User::class.java)
+                val root: Root<User> = criteriaQuery.from(User::class.java)
+                criteriaQuery.where(root.get<String>("status").`in`(status.get().split(",").map { it.trim() }))
+                return entityManager.createQuery(criteriaQuery).resultList
+            }
+        } else return userRepository.findAll()
     }
 
     @GetMapping("/{id}")
