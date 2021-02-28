@@ -11,19 +11,19 @@ import javax.validation.constraints.Size
 @Table(name = "users")
 data class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    var id: Long,
 
     @field: [NotBlank Size(max = 255)]
-    val name: String?,
+    var name: String?,
 
     @field: [NotBlank Size(max = 255)]
-    val status: String?,
+    var status: String?,
 
     @field: CreationTimestamp
     @Column(updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @field: UpdateTimestamp
-    val updatedAt: LocalDateTime = LocalDateTime.now(),
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 
 )
